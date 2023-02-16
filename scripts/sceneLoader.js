@@ -101,36 +101,11 @@ const addBase = (scene) => {
 }
 
 /**
- * 
- * @param {THREE.Scene} scene 
- */
-const addHouses = (scene) => {
-    const houseDimensions = {
-        house1: {
-            length: 10,
-            width: 10,
-            height: 10
-        },
-        house2: {
-            length: 10,
-            width: 10,
-            height: 10
-        },
-        house3: {
-            length: 10,
-            width: 10,
-            height: 10
-        },
-    };
-}
-
-/**
  * Loads all static scene objects
  * @param {THREE.Scene} scene 
  */
 const loadStaticSceneObjects = (scene) => {
     addBase(scene);
-    addHouses(scene);
 }
 
 export {
