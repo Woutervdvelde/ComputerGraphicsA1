@@ -1,4 +1,4 @@
-import { loadSceneObjects } from "./sceneLoader.js";
+import { loadStaticSceneObjects } from "./sceneLoader.js";
 
 // Create scene
 const scene = new THREE.Scene();
@@ -11,7 +11,7 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.x = 0;
 camera.position.y = 1;
-camera.position.z = 0;
+camera.position.z = 100;
 
 // Create renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -25,13 +25,13 @@ const light = new THREE.DirectionalLight(0xdddddd, 1);
 light.position.set(0, 1, 1);
 scene.add(light);
 
-// Load all scene objects
-loadSceneObjects(scene);
+loadStaticSceneObjects(scene);
 
+// Render loop
 const clock = new THREE.Clock();
 const render = function () {
     requestAnimationFrame(render);
-    controls.update(); //update for auto-rotation
+    controls.update();
     renderer.render(scene, camera);
 }
 render();
