@@ -24,7 +24,8 @@ export class House {
     }
 
     _generateBase() {
-        const geometry = new THREE.BoxGeometry(this.width, this.height * (1 - this.thresholdRoof), this.length);
+        const reduce = 0.1 * this.width;
+        const geometry = new THREE.BoxGeometry(this.width - reduce, this.height * (1 - this.thresholdRoof), this.length - reduce);
         const base = new THREE.Mesh(geometry, this.wallTexture);
         base.position.y = this.height * (1 - this.thresholdRoof) / 2;
         return base;
@@ -57,6 +58,14 @@ export class House {
             0, baseHeight, this.width,
             this.length, this.height, this.width / 2,
             0, this.height, this.width / 2,
+
+            0, baseHeight, 0,
+            this.length, baseHeight, 0,
+            this.length, baseHeight, this.width,
+
+            0, baseHeight, 0,
+            this.length, baseHeight, this.width,
+            0, baseHeight, this.width,
         ]);
 
         geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
