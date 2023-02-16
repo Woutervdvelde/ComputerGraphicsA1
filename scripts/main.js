@@ -1,4 +1,4 @@
-import { loadSceneObjects } from "./sceneLoader.js";
+import { loadStaticSceneObjects } from "./sceneLoader.js";
 
 // Create scene
 const scene = new THREE.Scene();
@@ -25,8 +25,7 @@ const light = new THREE.DirectionalLight(0xdddddd, 1);
 light.position.set(0, 1, 1);
 scene.add(light);
 
-// Load all scene objects
-loadSceneObjects(scene);
+loadStaticSceneObjects(scene);
 
 // Render loop
 const clock = new THREE.Clock();
