@@ -7,10 +7,12 @@ import { get_grass_texture, get_road_brick_texture } from './textureLoader.js';
  */
 const addBase = (scene) => {
     // Grass plane
-    const grassObject = new THREE.PlaneGeometry(500, 500);
-    const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-    scene.add(new THREE.Mesh(grassObject, get_grass_texture(500, 500)));
+    const grass = new THREE.PlaneGeometry(500, 500);
+    const grassObject = new THREE.Mesh(grass, get_grass_texture(500, 500));
+    grassObject.rotation.x = degreesToRadians(-90);
+    scene.add(grassObject);
 
+    // Actual (roughly) dimensions of the roads in meters
     const roadDimensions = {
         borch1: {
             length: 136,
@@ -35,60 +37,63 @@ const addBase = (scene) => {
     };
 
     // Roads generated based on roadDimensions
+    let road = roadDimensions.borch1;
     const road_borch1 = new THREE.Mesh(
         new THREE.BoxGeometry(
-            roadDimensions.borch1.length,
-            roadDimensions.borch1.width,
-            roadDimensions.borch1.height
+            road.length,
+            road.height,
+            road.width,
         ),
-        get_road_brick_texture(roadDimensions.borch1.length, roadDimensions.borch1.width)
+        get_road_brick_texture(road.length, road.width)
     );
 
+    road = roadDimensions.borch2;
     const road_borch2 = new THREE.Mesh(
         new THREE.BoxGeometry(
-            roadDimensions.borch2.length, 
-            roadDimensions.borch2.width, 
-            roadDimensions.borch2.height
+            road.length, 
+            road.height,
+            road.width, 
         ),
-        get_road_brick_texture(roadDimensions.borch2.length, roadDimensions.borch2.width)
+        get_road_brick_texture(road.length, road.width)
     );
 
+    road = roadDimensions.borch3;
     const road_borch3 = new THREE.Mesh(
         new THREE.BoxGeometry(
-        roadDimensions.borch3.length + 5, 
-        roadDimensions.borch3.width, 
-        roadDimensions.borch3.height
+        road.length + 5, 
+        road.height,
+        road.width, 
         ),
-        get_road_brick_texture(roadDimensions.borch3.length, roadDimensions.borch3.width)
+        get_road_brick_texture(road.length, road.width)
     );
 
+    road = roadDimensions.kanaal;
     const road_kanaal = new THREE.Mesh(
         new THREE.BoxGeometry(
-        roadDimensions.kanaal.length, 
-        roadDimensions.kanaal.width, 
-        roadDimensions.kanaal.height
+        road.length, 
+        road.height,
+        road.width, 
         ), 
-        get_road_brick_texture(roadDimensions.kanaal.length, roadDimensions.kanaal.width)
+        get_road_brick_texture(road.length, road.width)
     );
 
     // Move roads to correct position
     road_borch2.position.x = roadDimensions.borch1.length / 2 - 2; // -2 to compensate for rotation
-    road_borch2.position.y = -(17 / 2);
-    road_borch2.rotation.z = degreesToRadians(70);
-
+    road_borch2.position.z = roadDimensions.borch2.length / 2;
+    road_borch2.rotation.y = degreesToRadians(70);
 
     road_borch3.position.x = roadDimensions.borch1.length / 2 + 7; // +7 to compensate for rotation
-    road_borch3.position.y = 34 / 2;
-    road_borch3.position.z = .25;
+    road_borch3.position.y = .2;
+    road_borch3.position.z = -(roadDimensions.borch3.length / 2);
     road_borch3.rotation.x = degreesToRadians(5);
-    road_borch3.rotation.z = degreesToRadians(70);
+    road_borch3.rotation.y = degreesToRadians(70);
 
     road_kanaal.position.x = 10;
-    road_kanaal.position.y = 78;
-    road_kanaal.position.z = 1.5;
-    road_kanaal.rotation.z = degreesToRadians(-29);
+    road_kanaal.position.y = 1.5;
+    road_kanaal.position.z = -78;
+    road_kanaal.rotation.y = degreesToRadians(-29);
 
-
+    // Add roads to scene
     scene.add(road_borch1);
     scene.add(road_borch2);
     scene.add(road_borch3);
