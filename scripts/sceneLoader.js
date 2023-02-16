@@ -121,7 +121,6 @@ const addHouses = (scene) => {
  */
 const loadStaticSceneObjects = (scene) => {
     addBase(scene);
-    addHouses(scene);
 }
 
 export {
