@@ -109,7 +109,7 @@ const addHouses = (scene) => {
     const house = new House(5, 5, 8);
     scene.add(house);
 
-    const house2 = new House(3, 5, 6);
+    const house2 = new House(3, 5, 6, .4);
     house2.rotation.y = degreesToRadians(90);
     house2.position.x = -3;
     scene.add(house2)

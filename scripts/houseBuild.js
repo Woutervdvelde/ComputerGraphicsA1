@@ -33,7 +33,7 @@ export class House {
 
     _generateRoof() {
         const geometry = new THREE.BufferGeometry();
-        const baseHeight = this.height * this.thresholdRoof;
+        const baseHeight = this.height * (1 - this.thresholdRoof);
         const vertices = new Float32Array([
             0, baseHeight, 0,
             0, baseHeight, this.width,
