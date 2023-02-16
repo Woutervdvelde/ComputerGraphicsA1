@@ -11,7 +11,7 @@ const camera = new THREE.PerspectiveCamera(
 
 camera.position.x = 0;
 camera.position.y = 1;
-camera.position.z = 0;
+camera.position.z = 100;
 
 // Create renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -28,10 +28,11 @@ scene.add(light);
 // Load all scene objects
 loadSceneObjects(scene);
 
+// Render loop
 const clock = new THREE.Clock();
 const render = function () {
     requestAnimationFrame(render);
-    controls.update(); //update for auto-rotation
+    controls.update();
     renderer.render(scene, camera);
 }
 render();
