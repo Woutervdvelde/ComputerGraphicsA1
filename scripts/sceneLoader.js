@@ -102,17 +102,53 @@ const addBase = (scene) => {
 }
 
 /**
- * 
+ * Adds all houses to the scene
  * @param {THREE.Scene} scene 
  */
 const addHouses = (scene) => {
-    const house = new House(5, 5, 8);
-    scene.add(house);
+    // Address: 3
+    const house3 = new House(8, 8, 11, .35);
+    house3.position.x = 46;
+    house3.position.z = 14;
+    house3.rotation.y = degreesToRadians(90);
+    scene.add(house3);
 
-    const house2 = new House(3, 5, 6, .4);
-    house2.rotation.y = degreesToRadians(90);
-    house2.position.x = -3;
-    scene.add(house2)
+    // Address: 3A
+    const house3a = new House(7, 7, 10);
+    const house3a_2 = new House(6, 7, 7);
+    house3a.position.x = -40;
+    house3a.position.z = 21;
+    house3a_2.position.x = -40 - 3.5;
+    house3a_2.position.z = 21;
+    house3a_2.rotation.y = degreesToRadians(90);
+    scene.add(house3a);
+    scene.add(house3a_2);
+
+    // Address: 6
+    const house6 = new House(8, 7, 11, .6);
+    const house6_2 = new House(8, 5, 18, .3);
+    const house6_3 = new House(5, 5, 12, .3);
+    const house6_4 = new House(2, 2.5, 4, .2);
+    house6.position.x = -10;
+    house6.position.z = -18;
+    house6.rotation.y = degreesToRadians(90);
+    house6_2.position.x = 2;
+    house6_2.position.z = -32;
+    house6_3.position.x = 0;
+    house6_3.position.z = -29;
+    house6_4.position.x = 10;
+    house6_4.position.z = -24;
+    scene.add(house6);
+    scene.add(house6_2);
+    scene.add(house6_3);
+    scene.add(house6_4);
+
+    // Address: 8
+    const house8 = new House(9, 9, 12);
+    house8.position.x = -78;
+    house8.position.z = -18;
+    house8.rotation.y = degreesToRadians(90);
+    scene.add(house8);
 }
 
 /**
@@ -121,6 +157,7 @@ const addHouses = (scene) => {
  */
 const loadStaticSceneObjects = (scene) => {
     addBase(scene);
+    addHouses(scene);
 }
 
 export {
