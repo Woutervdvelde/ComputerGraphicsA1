@@ -25,6 +25,9 @@ const light = new THREE.DirectionalLight(0xdddddd, 1);
 light.position.set(0, 1, 1);
 scene.add(light);
 
+const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+scene.add(ambientLight);
+
 loadStaticSceneObjects(scene);
 
 // Render loop
