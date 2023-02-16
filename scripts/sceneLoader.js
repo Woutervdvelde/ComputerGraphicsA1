@@ -1,5 +1,6 @@
 import { degreesToRadians } from './helper.js';
 import { get_grass_texture, get_road_brick_texture } from './textureLoader.js';
+import { House } from './houseBuild.js';
 
 /**
  * Adds the base of the scene, grass plane and roads
@@ -105,23 +106,8 @@ const addBase = (scene) => {
  * @param {THREE.Scene} scene 
  */
 const addHouses = (scene) => {
-    const houseDimensions = {
-        house1: {
-            length: 10,
-            width: 10,
-            height: 10
-        },
-        house2: {
-            length: 10,
-            width: 10,
-            height: 10
-        },
-        house3: {
-            length: 10,
-            width: 10,
-            height: 10
-        },
-    };
+    const house = new House(5, 5, 8);
+    scene.add(house.getMesh());
 }
 
 /**
