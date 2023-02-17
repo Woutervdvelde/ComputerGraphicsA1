@@ -10,8 +10,8 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.x = 0;
-camera.position.y = 1;
-camera.position.z = 100;
+camera.position.y = 10;
+camera.position.z = 25;
 
 // Create renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -24,6 +24,9 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 const light = new THREE.DirectionalLight(0xdddddd, 1);
 light.position.set(0, 1, 1);
 scene.add(light);
+
+const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+scene.add(ambientLight);
 
 loadStaticSceneObjects(scene);
 
