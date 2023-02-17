@@ -1,5 +1,5 @@
 import { degreesToRadians } from './helper.js';
-import { get_grass_texture, get_road_brick_texture } from './textureLoader.js';
+import { get_grass_texture, get_road_brick_texture, get_hedge_01_texture } from './textureLoader.js';
 import { House } from './houseBuild.js';
 import { Hedge } from './hedgeBuilder.js';
 
@@ -192,7 +192,7 @@ const addHedges = (scene) => {
     hedge7.position.z = 4;
     hedge7.rotation.y = degreesToRadians(90);
 
-    const hedge8 = new Hedge(.5, 4, 104);
+    const hedge8 = new Hedge(.5, 4, 104, get_hedge_01_texture(104, 4));
     hedge8.position.x = -62;
     hedge8.position.z = -55;
 

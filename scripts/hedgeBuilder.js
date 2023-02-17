@@ -7,16 +7,14 @@ export class Hedge {
      * @param {float} l length of the hedge
      * @returns {THREE.Mesh} mesh containing the hedge
      */
-    constructor(w, h, l) {
+    constructor(w, h, l, headgeTexture) {
         this.width = w;
         this.height = h;
         this.length = l;
+        if (headgeTexture) 
+            this.hedgeTexture = headgeTexture;
 
         return this._getMesh();
-    }
-
-    setHedgeTexture(texture) {
-        this.hedgeTexture = texture;
     }
 
     _generateHedge() {
