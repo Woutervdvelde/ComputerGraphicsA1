@@ -3,9 +3,15 @@ import { degreesToRadians } from './helper.js';
 export class House {
     wallTexture = new THREE.MeshStandardMaterial({ color: 0xafa0a3 });
     roofTexture = new THREE.MeshStandardMaterial({ color: 0x4d4c49 });
-    //Defines the height of the roof relative to the height of the house, 0.5 means half the height of the entire house
     thresholdRoof = 0.5;
 
+    /**
+     * @param {float} w width of the house
+     * @param {float} h height of the house
+     * @param {float} l length of the house
+     * @param {float} thresholdRoof defines the height of the roof relative to the height of the house, 0.5 means half the height of the entire house
+     * @returns {THREE.Group} group containing the house (base and roof)
+     */
     constructor(w, h, l, thresholdRoof = 0.5) {
         this.width = w;
         this.height = h;
