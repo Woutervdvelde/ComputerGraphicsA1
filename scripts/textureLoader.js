@@ -33,9 +33,21 @@ const get_hedge_01_texture = (w, h) => {
     return hedge_01;
 }
 
+const get_hedge_02_texture = (w, h) => {
+    const hedge_02_texture = textureLoader.load("textures/hedge_02.jpg");
+    hedge_02_texture.wrapS = THREE.RepeatWrapping;
+    hedge_02_texture.wrapT = THREE.RepeatWrapping;
+    hedge_02_texture.repeat.set(w, h);
+    const hedge_02 = new THREE.MeshLambertMaterial({ map: hedge_02_texture });
+
+    return hedge_02;
+}
+
+
 
 export {
     get_grass_texture,
     get_road_brick_texture,
-    get_hedge_01_texture
+    get_hedge_01_texture,
+    get_hedge_02_texture
 }

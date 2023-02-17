@@ -1,5 +1,5 @@
 import { degreesToRadians } from './helper.js';
-import { get_grass_texture, get_road_brick_texture, get_hedge_01_texture } from './textureLoader.js';
+import { get_grass_texture, get_road_brick_texture, get_hedge_01_texture, get_hedge_02_texture } from './textureLoader.js';
 import { House } from './houseBuild.js';
 import { Hedge } from './hedgeBuilder.js';
 
@@ -157,37 +157,37 @@ const addHouses = (scene) => {
  * @param {THREE.Scene} scene 
  */
 const addHedges = (scene) => {
-    const hedge1 = new Hedge(.5, 1, 24);
+    const hedge1 = new Hedge(.5, 1, 24, get_hedge_02_texture(24, 1));
     hedge1.position.x = 37;
     hedge1.position.z = 4;
     hedge1.rotation.y = degreesToRadians(90);
 
-    const hedge2 = new Hedge(.5, 2, 42);
+    const hedge2 = new Hedge(.5, 2, 42, get_hedge_02_texture(42, 2));
     hedge2.position.x = 5;
     hedge2.position.z = 4;
     hedge2.rotation.y = degreesToRadians(90);
 
-    const hedge3 = new Hedge(.5, 2, 6);
+    const hedge3 = new Hedge(.5, 2, 6, get_hedge_02_texture(6, 2));
     hedge3.position.x = -18 + .5; // +.5 to compensate for rotation
     hedge3.position.z = 6 + .5; // +.5 to compensate for rotation
     hedge3.rotation.y = degreesToRadians(-35);
 
-    const hedge4 = new Hedge(.5, 2, 5);
+    const hedge4 = new Hedge(.5, 2, 5, get_hedge_02_texture(5, 2));
     hedge4.position.x = -26 +- .5; // -.5 to compensate for rotation
     hedge4.position.z = 6 + .25; // +.25 to compensate for rotation
     hedge4.rotation.y = degreesToRadians(10);
 
-    const hedge5 = new Hedge(.5, 2, 8);
+    const hedge5 = new Hedge(.5, 2, 8, get_hedge_02_texture(8, 2));
     hedge5.position.x = -31;
     hedge5.position.z = 4;
     hedge5.rotation.y = degreesToRadians(90);
 
-    const hedge6 = new Hedge(.5, 1, 15);
+    const hedge6 = new Hedge(.5, 1, 15, get_hedge_02_texture(15, 1));
     hedge6.position.x = -42.5;
     hedge6.position.z = 4;
     hedge6.rotation.y = degreesToRadians(90);
 
-    const hedge7 = new Hedge(.5, 2, 20);
+    const hedge7 = new Hedge(.5, 2, 20, get_hedge_02_texture(20, 2));
     hedge7.position.x = -60;
     hedge7.position.z = 4;
     hedge7.rotation.y = degreesToRadians(90);
@@ -197,16 +197,16 @@ const addHedges = (scene) => {
     hedge8.position.z = -55;
 
     //TODO replace this one with row of trees later (south of address 6)
-    const hedge9 = new Hedge(.5, 3, 53);
+    const hedge9 = new Hedge(.5, 3, 53, get_hedge_02_texture(53, 3));
     hedge9.position.x = -23;
     hedge9.position.z = -30;
 
-    const hedge10 = new Hedge(.5, .5, 20);
+    const hedge10 = new Hedge(.5, .5, 20, get_hedge_02_texture(20, .5));
     hedge10.position.x = -13;
     hedge10.position.z = -3;
     hedge10.rotation.y = degreesToRadians(90);
 
-    const hedge11 = new Hedge(.5, 2, 77);
+    const hedge11 = new Hedge(.5, 2, 77, get_hedge_02_texture(77, 2));
     hedge11.position.x = -12;
     hedge11.position.z = 42.5;
 
