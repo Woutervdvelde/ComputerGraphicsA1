@@ -1,5 +1,5 @@
 import { degreesToRadians } from './helper.js';
-import { get_grass_texture, get_road_brick_texture, get_hedge_01_texture, get_hedge_02_texture } from './textureLoader.js';
+import { get_grass_texture, get_road_brick_texture, get_hedge_01_texture, get_hedge_02_texture, get_road_gravel_texture } from './textureLoader.js';
 import { House } from './houseBuild.js';
 import { Hedge } from './hedgeBuilder.js';
 
@@ -30,6 +30,16 @@ const addBase = (scene) => {
             length: 34,
             width: 4,
             height: 3
+        },
+        borch4: {
+            length: 21,
+            width: 2,
+            height: .1
+        },
+        borch5: {
+            length: 78,
+            width: 4,
+            height: .1
         },
         kanaal: {
             length: 182,
@@ -69,6 +79,26 @@ const addBase = (scene) => {
         get_road_brick_texture(road.length, road.width)
     );
 
+    road = roadDimensions.borch4;
+    const road_borch4 = new THREE.Mesh(
+        new THREE.BoxGeometry(
+        road.length, 
+        road.height,
+        road.width, 
+        ),
+        get_road_brick_texture(road.length, road.width)
+    );
+
+    road = roadDimensions.borch5;
+    const road_borch5 = new THREE.Mesh(
+        new THREE.BoxGeometry(
+        road.length, 
+        road.height,
+        road.width, 
+        ),
+        get_road_gravel_texture(road.length, road.width)
+    );
+
     road = roadDimensions.kanaal;
     const road_kanaal = new THREE.Mesh(
         new THREE.BoxGeometry(
@@ -90,6 +120,14 @@ const addBase = (scene) => {
     road_borch3.rotation.x = degreesToRadians(5);
     road_borch3.rotation.y = degreesToRadians(70);
 
+    road_borch4.position.x = 0;
+    road_borch4.position.z = -(roadDimensions.borch4.length / 2) - (roadDimensions.borch1.width / 2);
+    road_borch4.rotation.y = degreesToRadians(90);
+
+    road_borch5.position.x = -23;
+    road_borch5.position.z = (roadDimensions.borch5.length / 2) + (roadDimensions.borch1.width / 2);
+    road_borch5.rotation.y = degreesToRadians(90);
+
     road_kanaal.position.x = 10;
     road_kanaal.position.y = 1.5;
     road_kanaal.position.z = -78;
@@ -99,6 +137,8 @@ const addBase = (scene) => {
     scene.add(road_borch1);
     scene.add(road_borch2);
     scene.add(road_borch3);
+    scene.add(road_borch4);
+    scene.add(road_borch5);
     scene.add(road_kanaal);
 }
 
@@ -210,6 +250,15 @@ const addHedges = (scene) => {
     hedge11.position.x = -12;
     hedge11.position.z = 42.5;
 
+    const hedge12 = new Hedge(.5, 3, 17, get_hedge_02_texture(17, 3));
+    hedge12.position.x = 7;
+    hedge12.position.z = -28;
+
+    const hedge13 = new Hedge(.75, 3.1, 3, get_hedge_02_texture(3, 3.1));
+    hedge13.position.x = 7 - 1.5;
+    hedge13.position.z = -19;
+    hedge13.rotation.y = degreesToRadians(90);
+
     scene.add(hedge1);
     scene.add(hedge2);
     scene.add(hedge3);
@@ -221,6 +270,8 @@ const addHedges = (scene) => {
     scene.add(hedge9);
     scene.add(hedge10);
     scene.add(hedge11);
+    scene.add(hedge12);
+    scene.add(hedge13);
 }
 
 /**

@@ -23,6 +23,16 @@ const get_road_brick_texture = (w, h) => {
     return road_brick;
 }
 
+const get_road_gravel_texture = (w, h) => {
+    const road_gravel_texture = textureLoader.load("textures/ground_gravel_crop.jpg");
+    road_gravel_texture.wrapS = THREE.RepeatWrapping;
+    road_gravel_texture.wrapT = THREE.RepeatWrapping;
+    road_gravel_texture.repeat.set(w, h);
+    const road_gravel = new THREE.MeshLambertMaterial({ map: road_gravel_texture });
+
+    return road_gravel;
+}
+
 const get_hedge_01_texture = (w, h) => {
     const hedge_01_texture = textureLoader.load("textures/hedge_01.jpg");
     hedge_01_texture.wrapS = THREE.RepeatWrapping;
@@ -48,6 +58,7 @@ const get_hedge_02_texture = (w, h) => {
 export {
     get_grass_texture,
     get_road_brick_texture,
+    get_road_gravel_texture,
     get_hedge_01_texture,
     get_hedge_02_texture
 }
