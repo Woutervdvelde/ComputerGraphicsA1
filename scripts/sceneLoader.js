@@ -259,6 +259,15 @@ const addHedges = (scene) => {
     hedge13.position.z = -19;
     hedge13.rotation.y = degreesToRadians(90);
 
+    const hedge14 = new Hedge(.5, 3, 14, get_hedge_02_texture(14, 3));
+    hedge14.position.x = 2;
+    hedge14.position.z = -49;
+
+    const hedge15 = new Hedge(.5, 3, 24, get_hedge_02_texture(24, 3));
+    hedge15.position.x = -10;
+    hedge15.position.z = -56;
+    hedge15.rotation.y = degreesToRadians(90);
+
     scene.add(hedge1);
     scene.add(hedge2);
     scene.add(hedge3);
@@ -272,6 +281,8 @@ const addHedges = (scene) => {
     scene.add(hedge11);
     scene.add(hedge12);
     scene.add(hedge13);
+    scene.add(hedge14);
+    scene.add(hedge15);
 }
 
 /**
