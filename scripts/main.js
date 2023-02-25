@@ -2,6 +2,8 @@ import { loadStaticSceneObjects } from "./sceneLoader.js";
 
 // Create scene
 const scene = new THREE.Scene();
+window.scene = scene;
+
 const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
