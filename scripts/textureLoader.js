@@ -18,12 +18,12 @@ const _getTexture = (texture_name, x, y) => {
 
 const get_material = (texture_name, w, h, l) => {
     if (l == undefined)
-        return new THREE.MeshLambertMaterial({ map: _getTexture(texture_name, w, h) })
+        return new THREE.MeshStandardMaterial({ map: _getTexture(texture_name, w, h) })
 
     const materials = [];
-    materials.push(new THREE.MeshLambertMaterial({ map: _getTexture(texture_name, l, h) }));
-    materials.push(new THREE.MeshLambertMaterial({ map: _getTexture(texture_name, w, l) }));
-    materials.push(new THREE.MeshLambertMaterial({ map: _getTexture(texture_name, w, h) }));
+    materials.push(new THREE.MeshStandardMaterial({ map: _getTexture(texture_name, l, h) }));
+    materials.push(new THREE.MeshStandardMaterial({ map: _getTexture(texture_name, w, l) }));
+    materials.push(new THREE.MeshStandardMaterial({ map: _getTexture(texture_name, w, h) }));
 
     const mapping = [
         materials[0], materials[0], materials[1],
