@@ -1,5 +1,9 @@
+import { get_material } from './textureLoader.js';
+
+
 export class Hedge {
-    hedgeTexture = new THREE.MeshStandardMaterial({ color: 0x376931 });
+    hedgeMaterial = new THREE.MeshStandardMaterial({ color: 0x376931 });
+    mesh = null;
 
     /**
      * @param {float} w width of the hedge
@@ -11,21 +15,29 @@ export class Hedge {
         this.width = w;
         this.height = h;
         this.length = l;
-        if (headgeTexture) 
-            this.hedgeTexture = headgeTexture;
+        if (headgeTexture)
+            this.setHedgeMaterial(headgeTexture);
 
-        return this._getMesh();
+        this.position = this.getMesh().position;
+        this.rotation = this.getMesh().rotation;
+    }
+
+    setHedgeMaterial(texture) {
+        this.hedgeMaterial = get_material(texture, this.width, this.height, this.length);
+        this.getMesh().material = this.hedgeMaterial;
     }
 
     _generateHedge() {
         const geometry = new THREE.BoxGeometry(this.width, this.height, this.length);
-        const hedge = new THREE.Mesh(geometry, this.hedgeTexture);
+        const hedge = new THREE.Mesh(geometry, this.hedgeMaterial);
         hedge.position.y = this.height / 2;
         return hedge;
     }
 
-    _getMesh() {
-        const hedge = this._generateHedge();
-        return hedge;
+    getMesh() {
+        if (!this.mesh)
+            this.mesh = this._generateHedge();
+
+        return this.mesh;
     }
 }

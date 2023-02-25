@@ -1,9 +1,12 @@
 import { degreesToRadians } from './helper.js';
+import { get_material } from './textureLoader.js';
+
 
 export class House {
-    wallTexture = new THREE.MeshStandardMaterial({ color: 0xafa0a3 });
-    roofTexture = new THREE.MeshStandardMaterial({ color: 0x4d4c49 });
+    wallMaterial = new THREE.MeshStandardMaterial({ color: 0xafa0a3 });
+    roofMaterial = new THREE.MeshStandardMaterial({ color: 0x4d4c49 });
     thresholdRoof = 0.5;
+    mesh = null;
 
     /**
      * @param {float} w width of the house
@@ -18,21 +21,24 @@ export class House {
         this.length = l;
         this.thresholdRoof = thresholdRoof;
 
-        return this._getMesh();
+        this.position = this.getMesh().position;
+        this.rotation = this.getMesh().rotation;
     }
 
-    setWallTexture(texture) {
-        this.wallTexture = texture;
+    setWallMaterial(texture) {
+        this.wallMaterial = get_material(texture, this.width, this.height, this.length);
+        this.getMesh().children[0].material = this.wallMaterial;
     }
 
-    setRoofTexture(texture) {
-        this.roofTexture = texture;
+    setRoofMaterial(texture) {
+        this.roofMaterial = get_material(texture, this.width, this.height, this.length);
+        this.getMesh().children[1].material = this.roofMaterial;
     }
 
     _generateBase() {
         const reduce = 0.1 * this.width;
         const geometry = new THREE.BoxGeometry(this.width - reduce, this.height * (1 - this.thresholdRoof), this.length - reduce);
-        const base = new THREE.Mesh(geometry, this.wallTexture);
+        const base = new THREE.Mesh(geometry, this.wallMaterial);
         base.position.y = this.height * (1 - this.thresholdRoof) / 2;
         return base;
     }
@@ -76,7 +82,7 @@ export class House {
 
         geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
         geometry.computeVertexNormals();
-        const roof = new THREE.Mesh(geometry, this.roofTexture);
+        const roof = new THREE.Mesh(geometry, this.roofMaterial);
         roof.position.x = -(this.width / 2);
         roof.position.z = this.length / 2;
         roof.rotation.y = degreesToRadians(90);
@@ -84,7 +90,7 @@ export class House {
         return roof;
     }
 
-    _getMesh() {
+    _generateHouse() {
         const house = new THREE.Group();
         const roof = this._generateRoof();
         const base = this._generateBase();
@@ -93,5 +99,12 @@ export class House {
         house.add(roof);
 
         return house;
+    }
+
+    getMesh() {
+        if (!this.mesh)
+            this.mesh = this._generateHouse();
+
+        return this.mesh;
     }
 }
