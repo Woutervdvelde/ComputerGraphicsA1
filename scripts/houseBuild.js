@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { degreesToRadians } from './helper.js';
 import { get_material } from './textureLoader.js';
 

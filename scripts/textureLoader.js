@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 const textureLoader = new THREE.TextureLoader();
 
 const Textures = {

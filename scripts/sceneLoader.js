@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { degreesToRadians, addCustomObject } from './helper.js';
 import { Textures, get_material } from './textureLoader.js';
 import { House } from './houseBuild.js';

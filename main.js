@@ -1,5 +1,7 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { loadStaticSceneObjects } from "./scripts/sceneLoader.js";
-import { RGBELoader } from "./three/RGBELoader.js";
 
 // Create scene
 const scene = new THREE.Scene();
@@ -26,7 +28,7 @@ renderer.outputEncoding = THREE.LinearEncoding;
 document.body.appendChild(renderer.domElement);
 
 // Add OrbitControls
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 
 // Add HDRI skybox
 new RGBELoader()

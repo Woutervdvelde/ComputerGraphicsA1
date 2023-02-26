@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { get_material } from './textureLoader.js';
 
 
