@@ -287,8 +287,39 @@ const addHedges = (scene) => {
     addCustomObject(hedge15);
 }
 
+/**
+ * Adds all the objects at the end of the scene.
+ * This will force the player to not go any further.
+ * Mainly the road barriers at the end and start of Borch1 road.
+ */
 const addEndOfSceneObjects = async (scene) => {
     const barrier = await LoadModel('barrier.glb');
+
+    const b1 = barrier.scene.clone(); // south side
+    const b2 = barrier.scene.clone(); // south side
+    const b3 = barrier.scene.clone(); // north side
+    const b4 = barrier.scene.clone(); // north side
+
+    b1.position.x = -62;
+    b1.position.z = -1.5;
+    b1.rotation.y = degreesToRadians(-10);
+
+    b2.position.x = -62;
+    b2.position.z = 1.5;
+    b2.rotation.y = degreesToRadians(10);
+
+    b3.position.x = 50;
+    b3.position.z = -1.5;
+    b3.rotation.y = degreesToRadians(10);
+
+    b4.position.x = 50;
+    b4.position.z = 1.5;
+    b4.rotation.y = degreesToRadians(-10);
+
+    scene.add(b1);
+    scene.add(b2);
+    scene.add(b3);
+    scene.add(b4);
 }
 
 /**
