@@ -294,6 +294,7 @@ const addHedges = (scene) => {
  */
 const addEndOfSceneObjects = async (scene) => {
     const barrier = await LoadModel('barrier.glb');
+    const gate = await LoadModel('gate.glb');
 
     const b1 = barrier.scene.clone(); // south side
     const b2 = barrier.scene.clone(); // south side
@@ -320,6 +321,12 @@ const addEndOfSceneObjects = async (scene) => {
     scene.add(b2);
     scene.add(b3);
     scene.add(b4);
+
+    gate.scene.position.x = -23.75;
+    gate.scene.position.z = 9;
+    gate.scene.rotation.y = degreesToRadians(-90);
+    scene.add(gate.scene);
+
 }
 
 /**
