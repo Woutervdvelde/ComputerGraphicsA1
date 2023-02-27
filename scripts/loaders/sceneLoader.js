@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { degreesToRadians, addCustomObject } from '../helper.js';
+import { degreesToRadians, addCustomObject, random } from '../helper.js';
 import { Textures, get_material } from './textureLoader.js';
 import { House } from '../builders/houseBuilder.js';
 import { Hedge } from '../builders/hedgeBuilder.js';
@@ -326,7 +326,37 @@ const addEndOfSceneObjects = async (scene) => {
     gate.scene.position.z = 9;
     gate.scene.rotation.y = degreesToRadians(-90);
     scene.add(gate.scene);
+}
 
+const scatterBushes = (group, width, height, amount) => {
+    const bush = new THREE.BoxGeometry(1, 1, 1);
+    const mesh = new THREE.Mesh(bush, get_material(Textures.hedge_01));
+    const instanced = new THREE.InstancedMesh(mesh.geometry, mesh.material, amount);
+
+    for (let i = 0; i < amount; i++) {
+        instanced.setMatrixAt(i, new THREE.Matrix4().makeTranslation(
+            random(0, width) - width / 2,
+            .05,
+            random(0, height) - height / 2
+        ));
+    }
+    group.add(instanced);
+}
+
+const addBushField = (scene) => {
+    const ground = new THREE.BoxGeometry(37, .08, 80);
+    const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x8B4513 });
+    const groundMesh = new THREE.Mesh(ground, groundMaterial);
+
+    const field = new THREE.Group();
+    groundMesh.position.x = 0;
+    groundMesh.position.z = 0;
+    field.add(groundMesh);
+
+    scatterBushes(field, ground.parameters.width, ground.parameters.depth, 100);
+    field.position.x = -43;
+    field.position.z = -45;
+    scene.add(field);
 }
 
 /**
@@ -338,6 +368,7 @@ const loadStaticSceneObjects = async (scene) => {
     addHouses(scene);
     addHedges(scene);
     addEndOfSceneObjects(scene);
+    addBushField(scene);
 }
 
 export {

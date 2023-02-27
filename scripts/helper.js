@@ -6,7 +6,12 @@ const addCustomObject = (object) => {
     scene.add(object.getMesh());
 }
 
+const random = (min, max) => {
+    return Math.random() * (max - min) + min;
+}
+
 export {
     degreesToRadians,
-    addCustomObject
+    addCustomObject,
+    random
 }
