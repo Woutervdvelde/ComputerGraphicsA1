@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { loadStaticSceneObjects } from "./scripts/sceneLoader.js";
+import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 
 // Create scene
 const scene = new THREE.Scene();

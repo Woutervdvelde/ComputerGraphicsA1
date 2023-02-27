@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { degreesToRadians } from './helper.js';
-import { get_material } from './textureLoader.js';
+import { degreesToRadians } from '../helper.js';
+import { get_material } from '../loaders/textureLoader.js';
 
 
 export class House {

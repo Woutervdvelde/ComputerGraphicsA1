@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { get_material } from './textureLoader.js';
+import { get_material } from '../loaders/textureLoader.js';
 
 
 export class Hedge {

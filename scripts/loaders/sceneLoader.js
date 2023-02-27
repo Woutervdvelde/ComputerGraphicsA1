@@ -1,8 +1,9 @@
 import * as THREE from 'three';
-import { degreesToRadians, addCustomObject } from './helper.js';
+import { degreesToRadians, addCustomObject } from '../helper.js';
 import { Textures, get_material } from './textureLoader.js';
-import { House } from './houseBuild.js';
-import { Hedge } from './hedgeBuilder.js';
+import { House } from '../builders/houseBuilder.js';
+import { Hedge } from '../builders/hedgeBuilder.js';
+import { LoadModel } from './modelLoader.js';
 
 /**
  * Adds the base of the scene, grass plane and roads
@@ -286,14 +287,19 @@ const addHedges = (scene) => {
     addCustomObject(hedge15);
 }
 
+const addEndOfSceneObjects = async (scene) => {
+    const barrier = await LoadModel('barrier.glb');
+}
+
 /**
  * Loads all static scene objects
  * @param {THREE.Scene} scene 
  */
-const loadStaticSceneObjects = (scene) => {
+const loadStaticSceneObjects = async (scene) => {
     addBase(scene);
     addHouses(scene);
     addHedges(scene);
+    addEndOfSceneObjects(scene);
 }
 
 export {
