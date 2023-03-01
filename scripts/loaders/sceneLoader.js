@@ -64,6 +64,7 @@ const addBase = (scene) => {
         ),
         get_material(Textures.road_brick, road.width, road.height, road.length)
     );
+    road_borch1.name = 'main_road';
 
     road = roadDimensions.borch2;
     const road_borch2 = new THREE.Mesh(
