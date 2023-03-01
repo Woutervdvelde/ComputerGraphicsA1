@@ -1,9 +1,12 @@
 import * as THREE from 'three';
-import { degreesToRadians, addCustomObject } from '../helper.js';
+import { degreesToRadians, addCustomObject, random } from '../helper.js';
+
 import { Textures, get_material } from './textureLoader.js';
+import { LoadModel } from './modelLoader.js';
+
 import { House } from '../builders/houseBuilder.js';
 import { Hedge } from '../builders/hedgeBuilder.js';
-import { LoadModel } from './modelLoader.js';
+import { BushField } from '../builders/bushFieldBuilder.js';
 
 /**
  * Adds the base of the scene, grass plane and roads
@@ -326,7 +329,20 @@ const addEndOfSceneObjects = async (scene) => {
     gate.scene.position.z = 9;
     gate.scene.rotation.y = degreesToRadians(-90);
     scene.add(gate.scene);
+}
 
+const addBushField = (scene) => {
+    //Field in between address 6 and 8
+    const field = new BushField(37, .1, 80, 1000);
+    field.position.x = -43;
+    field.position.z = -45;
+    addCustomObject(field);
+
+    //Field just out of sight to the South of address 3A
+    const field2 = new BushField(37, .1, 80, 1000);
+    field2.position.x = -85;
+    field2.position.z = 45;
+    addCustomObject(field2);
 }
 
 /**
@@ -338,6 +354,7 @@ const loadStaticSceneObjects = async (scene) => {
     addHouses(scene);
     addHedges(scene);
     addEndOfSceneObjects(scene);
+    addBushField(scene);
 }
 
 export {
