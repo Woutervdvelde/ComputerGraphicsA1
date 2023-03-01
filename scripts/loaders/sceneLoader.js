@@ -7,6 +7,7 @@ import { LoadModel } from './modelLoader.js';
 import { House } from '../builders/houseBuilder.js';
 import { Hedge } from '../builders/hedgeBuilder.js';
 import { BushField } from '../builders/bushFieldBuilder.js';
+import { loadAllDetails } from '../detailers/detailLoader.js';
 
 /**
  * Adds the base of the scene, grass plane and roads
@@ -217,10 +218,9 @@ const addHedges = (scene) => {
     hedge3.position.z = 6 + .5; // +.5 to compensate for rotation
     hedge3.rotation.y = degreesToRadians(-35);
 
-    const hedge4 = new Hedge(.5, 2, 5, Textures.hedge_02);
-    hedge4.position.x = -26 + - .5; // -.5 to compensate for rotation
-    hedge4.position.z = 6 + .25; // +.25 to compensate for rotation
-    hedge4.rotation.y = degreesToRadians(10);
+    const hedge4 = new Hedge(.5, 2, 2, Textures.hedge_02);
+    hedge4.position.x = -26;
+    hedge4.position.z = 8;
 
     const hedge5 = new Hedge(.5, 2, 8, Textures.hedge_02);
     hedge5.position.x = -31;
@@ -337,12 +337,6 @@ const addBushField = (scene) => {
     field.position.x = -43;
     field.position.z = -45;
     addCustomObject(field);
-
-    //Field just out of sight to the South of address 3A
-    const field2 = new BushField(37, .1, 80, 1000);
-    field2.position.x = -85;
-    field2.position.z = 45;
-    addCustomObject(field2);
 }
 
 /**
@@ -355,6 +349,8 @@ const loadStaticSceneObjects = async (scene) => {
     addHedges(scene);
     addEndOfSceneObjects(scene);
     addBushField(scene);
+
+    loadAllDetails(scene);
 }
 
 export {

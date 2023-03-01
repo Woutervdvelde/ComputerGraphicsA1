@@ -8,6 +8,8 @@ const Textures = {
     road_gravel: "ground_gravel_crop.jpg",
     hedge_01: "hedge_01.jpg",
     hedge_02: "hedge_02.jpg",
+    nursery_billboard: "nursery_billboard.png",
+    wood_01: "wood_01.jpg",
 }
 
 const _getTexture = (texture_name, x, y, repeat = true) => {
