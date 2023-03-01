@@ -180,9 +180,9 @@ const addHouses = (scene) => {
     house6.position.z = -18;
     house6.rotation.y = degreesToRadians(90);
     house6_2.position.x = 2;
-    house6_2.position.z = -32;
+    house6_2.position.z = -31;
     house6_3.position.x = 0;
-    house6_3.position.z = -29;
+    house6_3.position.z = -28;
     house6_4.position.x = 10;
     house6_4.position.z = -24;
     addCustomObject(house6);
