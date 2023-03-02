@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 
@@ -57,3 +58,10 @@ const animate = function () {
     renderer.render(scene, camera);
 }
 animate();
+
+window.onkeydown = (e) => {
+    if (e.key == "Escape") {
+        controls.dispose();
+        controls = new MapsController(scene, camera, renderer);
+    }
+}
