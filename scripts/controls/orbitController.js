@@ -11,4 +11,8 @@ export class OrbitController extends Controller {
     update() {
         this.controls.update();
     }
+
+    dispose() {
+        this.controls.dispose();
+    }
 }

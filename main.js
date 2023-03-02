@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { Controller } from './scripts/controls/Controller.js';
 import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
@@ -17,7 +18,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.x = 0;
-camera.position.y = 1.8;
+camera.position.y = 100;
 camera.position.z = 0;
 
 // Create renderer
@@ -29,15 +30,6 @@ renderer.outputEncoding = THREE.LinearEncoding;
 
 document.body.appendChild(renderer.domElement);
 
-// Create controls
-let controls = new OrbitController(scene, camera, renderer);
-// const fpc = new FirstPersonControls(camera, renderer.domElement);
-// fpc.constrainVertical = true;
-// fpc.heightMax = 1.8;
-// fpc.heightMin = 1.8;
-// fpc.lookSpeed = 0.1;
-
-
 // Add HDRI skybox
 new RGBELoader()
     .load("textures/hdri/grassland.hdr", (texture) => {
@@ -47,6 +39,25 @@ new RGBELoader()
     });
 
 loadStaticSceneObjects(scene);
+
+/**
+ * Some objects need some time to load when the camera first looks at them.
+ * This is a workaround to make sure objects are loaded before the user can interact with the scene.
+ * 
+ */
+camera.lookAt(scene.position);
+renderer.render(scene, camera);
+
+let controls = new Controller(scene, camera, renderer);
+setTimeout(() => {
+    controls = new MapsController(scene, camera, renderer);
+    // const fpc = new FirstPersonControls(camera, renderer.domElement);
+    // fpc.constrainVertical = true;
+    // fpc.heightMax = 1.8;
+    // fpc.heightMin = 1.8;
+    // fpc.lookSpeed = 0.1;
+}, 5000);
+
 
 // Render loop
 const clock = new THREE.Clock();

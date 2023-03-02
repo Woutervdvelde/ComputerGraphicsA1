@@ -1,5 +1,6 @@
 import { Controller } from "./Controller.js";
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { get_material, Textures } from "../loaders/textureLoader.js";
 import { degreesToRadians } from "../helper.js";
 
@@ -12,6 +13,15 @@ export class MapsController extends Controller {
         super(scene, camera, renderer);
         this.onmousemove = window.addEventListener('mousemove', (e) => this._mouseMove(e));
         this._createMoveIcon();
+
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.target.set(0, 1.8, 0);
+        this.controls.enablePan = false;
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = .1;
+        this.controls.rotateSpeed = - .25;
+
+        this.camera.position.set(0, 1.8, 0.01);
     }
 
     _mouseMove(e) {
@@ -58,9 +68,12 @@ export class MapsController extends Controller {
             this._displayMoveIcon(hasRoad.point.x, hasRoad.point.y, hasRoad.point.z);
         else
             this._hideMoveIcon();
+
+        this.controls.update();
     }
 
     dispose() {
         window.removeEventListener('mousemove', this.onmousemove);
+        this.controls.dispose();
     }
 }
