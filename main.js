@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 
 // Create scene
@@ -28,13 +28,14 @@ renderer.outputEncoding = THREE.LinearEncoding;
 
 document.body.appendChild(renderer.domElement);
 
-// Add OrbitControls
-const controls = new OrbitControls(camera, renderer.domElement);
+// Create controls
+let controls = new OrbitController(scene, camera, renderer);
 // const fpc = new FirstPersonControls(camera, renderer.domElement);
 // fpc.constrainVertical = true;
 // fpc.heightMax = 1.8;
 // fpc.heightMin = 1.8;
 // fpc.lookSpeed = 0.1;
+
 
 // Add HDRI skybox
 new RGBELoader()
@@ -50,7 +51,7 @@ loadStaticSceneObjects(scene);
 const clock = new THREE.Clock();
 const animate = function () {
     requestAnimationFrame(animate);
-    controls.update();
+    controls.update(clock.getDelta());
     // fpc.update(clock.getDelta());
     // camera.position.y = 1.8;
     renderer.render(scene, camera);

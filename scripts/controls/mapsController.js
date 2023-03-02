@@ -1,4 +1,6 @@
-class MapsController {
+import { Controller } from "./Controller.js";
+
+export class MapsController extends Controller {
     constructor() {
         window.addEventListener('mousemove', (e) => {
             const raycaster = new THREE.Raycaster();
