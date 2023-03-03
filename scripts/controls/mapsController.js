@@ -122,11 +122,9 @@ export class MapsController extends Controller {
             return a < b ? curr : prev;
         });
 
-        //TODO: Fix this, will only move correctly in one direction
         // To prevent the camera from moving backwards when the closest position is behind the camera
-        const directionRight = this.camera.position.x < this.moveIcon.x;
-        if (directionRight && closest.x < this.lastPosition.x) return;
-        if (!directionRight && closest.x < this.lastPosition.x) return;
+        if (this.moveIcon.position.x > this.camera.position.x && closest.x < this.camera.position.x) return;
+        if (this.moveIcon.position.x < this.camera.position.x && closest.x > this.camera.position.x) return;
         
         const oldRotation = this.camera.rotation.clone();
         const oldPosition = this.camera.position.sub(this.lastPosition);
