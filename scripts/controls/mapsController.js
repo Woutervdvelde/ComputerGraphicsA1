@@ -12,6 +12,8 @@ export class MapsController extends Controller {
     constructor(scene, camera, renderer) {
         super(scene, camera, renderer);
         this.onmousemove = window.addEventListener('mousemove', (e) => this._mouseMove(e));
+        this.onmousedown = window.addEventListener('mousedown', (e) => this._mouseDown(e));
+        this.onmouseup = window.addEventListener('mouseup', (e) => this._mouseUp(e));
         this._createMoveIcon();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -27,6 +29,14 @@ export class MapsController extends Controller {
     _mouseMove(e) {
         this.mouseX = e.clientX;
         this.mouseY = e.clientY;
+    }
+
+    _mouseDown(e) {
+        document.body.style.cursor = "move";
+    }
+
+    _mouseUp(e) {
+        document.body.style.cursor = "default";
     }
 
     _createMoveIcon() {
@@ -46,7 +56,9 @@ export class MapsController extends Controller {
 
     _displayMoveIcon(x, y, z) {
         this.moveIcon.position.set(x, y + 0.01, z);
+        this.moveIcon.rotation.z = this.camera.position.x > x ? degreesToRadians(90) : degreesToRadians(-90);
         this.moveIcon.visible = true;
+
     }
 
     _hideMoveIcon() {
@@ -74,6 +86,8 @@ export class MapsController extends Controller {
 
     dispose() {
         window.removeEventListener('mousemove', this.onmousemove);
+        window.removeEventListener('mousedown', this.onmousedown);
+        window.removeEventListener('mouseup', this.onmouseup);
         this.controls.dispose();
     }
 }
