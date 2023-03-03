@@ -4,13 +4,39 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { get_material, Textures } from "../loaders/textureLoader.js";
 import { degreesToRadians } from "../helper.js";
 
-
+/**
+ * @classdesc Controller that allows the user to move the camera to different positions on the X-axis, mimics Google Street View
+ * @extends Controller
+ */
 export class MapsController extends Controller {
     moveIcon;
     mouseX; mouseY;
+    lastMouseDown;
+    lastPosition = new THREE.Vector3();
+    maxZoom = 100;
+    minZoom = 20;
+    zoomStep = 2;
 
-    constructor(scene, camera, renderer) {
+    /**
+     * @param {THREE.Scene} scene 
+     * @param {THREE.Camera} camera 
+     * @param {THREE.Renderer} renderer 
+     * @param {THREE.Vector3[]} positions - Array of positions the camera is allowed to move to on the X-axis
+     */
+    constructor(scene, camera, renderer, positions) {
         super(scene, camera, renderer);
+        this.positions = positions;
+        this.lastPosition = positions[0];
+
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.target.set(0, 1.8, 0.01);
+        this.controls.enablePan = false;
+        this.controls.enableZoom = false;
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = .1;
+        this.controls.rotateSpeed = - .25;
+
+        this.camera.position.set(0, 1.8, 0);
 
         this.mouseMoveHandler = this._mouseMove.bind(this);
         this.mouseDownHandler = this._mouseDown.bind(this);
@@ -22,16 +48,6 @@ export class MapsController extends Controller {
         window.addEventListener('mouseup', this.mouseUpHandler);
         window.addEventListener('wheel', this.wheelHandler);
         this._createMoveIcon();
-
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.target.set(0, 1.8, 0);
-        this.controls.enablePan = false;
-        this.controls.enableZoom = false;
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = .1;
-        this.controls.rotateSpeed = - .25;
-
-        this.camera.position.set(0, 1.8, 0.01);
     }
 
     _mouseMove(e) {
@@ -41,14 +57,22 @@ export class MapsController extends Controller {
 
     _mouseDown(e) {
         document.body.style.cursor = "move";
+        this.lastMouseDown = Date.now();
     }
 
     _mouseUp(e) {
         document.body.style.cursor = "default";
+        if (Date.now() - this.lastMouseDown < 200 && this.moveIcon.visible)
+            this._teleportToClosestPosition();
     }
 
     _wheel(e) {
-        console.log(e);
+        if (e.deltaY > 0)
+            this._zoomOut();
+        else
+            this._zoomIn();
+
+        console.log(this.camera.fov);
     }
 
     _createMoveIcon() {
@@ -78,13 +102,41 @@ export class MapsController extends Controller {
     }
 
     _zoomIn() {
-        this.camera.fov -= 1;
+        this.camera.fov -= this.zoomStep;
+        if (this.camera.fov < this.minZoom)
+            this.camera.fov = this.minZoom;
         this.camera.updateProjectionMatrix();
     }
 
     _zoomOut() {
-        this.camera.fov += 1;
+        this.camera.fov += this.zoomStep;
+        if (this.camera.fov > this.maxZoom)
+            this.camera.fov = this.maxZoom;
         this.camera.updateProjectionMatrix();
+    }
+
+    _teleportToClosestPosition() {
+        const closest = this.positions.filter(p => p.x != this.lastPosition.x).reduce((prev, curr) => {
+            const a = Math.abs(curr.x - this.moveIcon.position.x);
+            const b = Math.abs(prev.x - this.moveIcon.position.x);
+            return a < b ? curr : prev;
+        });
+
+        //TODO: Fix this, will only move correctly in one direction
+        // To prevent the camera from moving backwards when the closest position is behind the camera
+        const directionRight = this.camera.position.x < this.moveIcon.x;
+        if (directionRight && closest.x < this.lastPosition.x) return;
+        if (!directionRight && closest.x < this.lastPosition.x) return;
+        
+        const oldRotation = this.camera.rotation.clone();
+        const oldPosition = this.camera.position.sub(this.lastPosition);
+        const newPosition = new THREE.Vector3(closest.x + oldPosition.x, closest.y + oldPosition.y, closest.z + oldPosition.z);
+
+        this.camera.rotation.set(oldRotation.x, oldRotation.y, oldRotation.z);
+        this.controls.target.set(closest.x, closest.y, closest.z + 0.01);
+        this.camera.position.set(newPosition.x, newPosition.y, newPosition.z);
+
+        this.lastPosition = closest;
     }
 
     update() {
@@ -111,7 +163,7 @@ export class MapsController extends Controller {
         window.removeEventListener('mousedown', this.mouseDownHandler);
         window.removeEventListener('mouseup', this.mouseUpHandler);
         window.removeEventListener('wheel', this.wheelHandler);
-        
+
         this.moveIcon.geometry.dispose();
         this.moveIcon.material.dispose();
         this.scene.remove(this.moveIcon);

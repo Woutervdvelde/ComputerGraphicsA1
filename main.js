@@ -39,17 +39,31 @@ new RGBELoader()
 
 loadStaticSceneObjects(scene);
 
+// Camera positions for the MapsController
+const defaultHeight = 1.8;
+const cameraPositions = [
+    new THREE.Vector3(0, defaultHeight, 0),
+    new THREE.Vector3(10, defaultHeight, 0),
+    new THREE.Vector3(20, defaultHeight, 0),
+    new THREE.Vector3(30, defaultHeight, 0),
+    new THREE.Vector3(40, defaultHeight, 0),
+    new THREE.Vector3(-10, defaultHeight, 0),
+    new THREE.Vector3(-20, defaultHeight, 0),
+    new THREE.Vector3(-30, defaultHeight, 0),
+    new THREE.Vector3(-40, defaultHeight, 0),
+    new THREE.Vector3(-50, defaultHeight, 0),
+];
+
 /**
  * Some objects need some time to load when the camera first looks at them.
  * This is a workaround to make sure objects are loaded before the user can interact with the scene.
- * 
  */
 camera.lookAt(scene.position);
 renderer.render(scene, camera);
 
 let controls = new Controller(scene, camera, renderer);
 setTimeout(() => {
-    controls = new MapsController(scene, camera, renderer);
+    controls = new MapsController(scene, camera, renderer, cameraPositions);
 }, 5000);
 
 
