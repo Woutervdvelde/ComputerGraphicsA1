@@ -11,14 +11,22 @@ export class MapsController extends Controller {
 
     constructor(scene, camera, renderer) {
         super(scene, camera, renderer);
-        this.onmousemove = window.addEventListener('mousemove', (e) => this._mouseMove(e));
-        this.onmousedown = window.addEventListener('mousedown', (e) => this._mouseDown(e));
-        this.onmouseup = window.addEventListener('mouseup', (e) => this._mouseUp(e));
+
+        this.mouseMoveHandler = this._mouseMove.bind(this);
+        this.mouseDownHandler = this._mouseDown.bind(this);
+        this.mouseUpHandler = this._mouseUp.bind(this);
+        this.wheelHandler = this._wheel.bind(this);
+
+        window.addEventListener('mousemove', this.mouseMoveHandler);
+        window.addEventListener('mousedown', this.mouseDownHandler);
+        window.addEventListener('mouseup', this.mouseUpHandler);
+        window.addEventListener('wheel', this.wheelHandler);
         this._createMoveIcon();
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.target.set(0, 1.8, 0);
         this.controls.enablePan = false;
+        this.controls.enableZoom = false;
         this.controls.enableDamping = true;
         this.controls.dampingFactor = .1;
         this.controls.rotateSpeed = - .25;
@@ -37,6 +45,10 @@ export class MapsController extends Controller {
 
     _mouseUp(e) {
         document.body.style.cursor = "default";
+    }
+
+    _wheel(e) {
+        console.log(e);
     }
 
     _createMoveIcon() {
@@ -65,6 +77,16 @@ export class MapsController extends Controller {
         this.moveIcon.visible = false;
     }
 
+    _zoomIn() {
+        this.camera.fov -= 1;
+        this.camera.updateProjectionMatrix();
+    }
+
+    _zoomOut() {
+        this.camera.fov += 1;
+        this.camera.updateProjectionMatrix();
+    }
+
     update() {
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2();
@@ -85,9 +107,15 @@ export class MapsController extends Controller {
     }
 
     dispose() {
-        window.removeEventListener('mousemove', this.onmousemove);
-        window.removeEventListener('mousedown', this.onmousedown);
-        window.removeEventListener('mouseup', this.onmouseup);
+        window.removeEventListener('mousemove', this.mouseMoveHandler);
+        window.removeEventListener('mousedown', this.mouseDownHandler);
+        window.removeEventListener('mouseup', this.mouseUpHandler);
+        window.removeEventListener('wheel', this.wheelHandler);
+        
+        this.moveIcon.geometry.dispose();
+        this.moveIcon.material.dispose();
+        this.scene.remove(this.moveIcon);
+
         this.controls.dispose();
     }
 }

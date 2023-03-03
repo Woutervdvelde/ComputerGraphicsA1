@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { Controller } from './scripts/controls/Controller.js';
 import { MapsController } from './scripts/controls/mapsController.js';
@@ -51,11 +50,6 @@ renderer.render(scene, camera);
 let controls = new Controller(scene, camera, renderer);
 setTimeout(() => {
     controls = new MapsController(scene, camera, renderer);
-    // const fpc = new FirstPersonControls(camera, renderer.domElement);
-    // fpc.constrainVertical = true;
-    // fpc.heightMax = 1.8;
-    // fpc.heightMin = 1.8;
-    // fpc.lookSpeed = 0.1;
 }, 5000);
 
 
@@ -64,8 +58,6 @@ const clock = new THREE.Clock();
 const animate = function () {
     requestAnimationFrame(animate);
     controls.update(clock.getDelta());
-    // fpc.update(clock.getDelta());
-    // camera.position.y = 1.8;
     renderer.render(scene, camera);
 }
 animate();
@@ -73,6 +65,6 @@ animate();
 window.onkeydown = (e) => {
     if (e.key == "Escape") {
         controls.dispose();
-        controls = new MapsController(scene, camera, renderer);
+        controls = new OrbitController(scene, camera, renderer);
     }
 }
