@@ -9,8 +9,11 @@ const Textures = {
     hedge_01: "hedge_01.jpg",
     hedge_02: "hedge_02.jpg",
     nursery_billboard: "nursery_billboard.png",
+    nursery_wall: "nursery_wall.jpg",
+    nursery_front: "nursery_front.png",
     maps_move_icon: "maps_move_icon.png",
     wood_01: "wood_01.jpg",
+    wall_brick: "wall_brick.jpg",
 }
 
 const _getTexture = (texture_name, x, y, repeat = true) => {

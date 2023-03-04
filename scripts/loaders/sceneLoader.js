@@ -103,7 +103,7 @@ const addBase = (scene) => {
             road.height,
             road.length,
         ),
-        get_material(Textures.road_brick, road.width, road.height, road.length)
+        get_material(Textures.road_gravel, road.width, road.height, road.length)
     );
 
     road = roadDimensions.kanaal;
@@ -169,6 +169,8 @@ const addHouses = (scene) => {
     house3a_2.position.x = -40 - 3.5;
     house3a_2.position.z = 21;
     house3a_2.rotation.y = degreesToRadians(90);
+    house3a.setWallMaterial(Textures.wall_brick);
+    house3a_2.setWallMaterial(Textures.wall_brick);
     addCustomObject(house3a);
     addCustomObject(house3a_2);
 

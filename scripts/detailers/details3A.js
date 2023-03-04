@@ -49,7 +49,30 @@ const addMailbox = (scene) => {
     scene.add(pole);
 }
 
+const addNurseries = (scene) => {
+    for (let i = 0; i < 10; i++) {
+        const nursery = new House(4, 4, 37, .2, 0);
+        nursery.setWallMaterial(Textures.nursery_wall);
+        nursery.position.set(-32 -(i * 4), 0, 70);
+
+        scene.add(nursery.getMesh());
+    }
+
+    const material = get_material(Textures.nursery_front, 12, 4, null, false);
+    material.transparent = true;
+
+    const front = new THREE.Mesh(
+        new THREE.PlaneGeometry(12, 4),
+        material
+    );
+    front.position.set(-24, 2, 80);
+    front.rotation.y = degreesToRadians(180);
+
+    scene.add(front);
+}
+
 export const loadDetails = (scene) => {
     addBillboard(scene);
     addMailbox(scene);
+    addNurseries(scene);
 }

@@ -72,8 +72,6 @@ export class MapsController extends Controller {
             this._zoomOut();
         else
             this._zoomIn();
-
-        console.log(this.camera.fov);
     }
 
     _createMoveIcon() {

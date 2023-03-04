@@ -14,13 +14,15 @@ export class House {
      * @param {float} h height of the house
      * @param {float} l length of the house
      * @param {float} thresholdRoof defines the height of the roof relative to the height of the house, 0.5 means half the height of the entire house
+     * @param {float} reduceBase defines the reduction of the base relative to the width of the house, 0.1 means 10% of the width of the house, this will make it look like the roof has more overhang
      * @returns {THREE.Group} group containing the house (base and roof)
      */
-    constructor(w, h, l, thresholdRoof = 0.5) {
+    constructor(w, h, l, thresholdRoof = 0.5, reduceBase = 0.1) {
         this.width = w;
         this.height = h;
         this.length = l;
         this.thresholdRoof = thresholdRoof;
+        this.reduceBase = reduceBase;
 
         this.position = this.getMesh().position;
         this.rotation = this.getMesh().rotation;
@@ -37,7 +39,7 @@ export class House {
     }
 
     _generateBase() {
-        const reduce = 0.1 * this.width;
+        const reduce = this.reduceBase * this.width;
         const geometry = new THREE.BoxGeometry(this.width - reduce, this.height * (1 - this.thresholdRoof), this.length - reduce);
         const base = new THREE.Mesh(geometry, this.wallMaterial);
         base.position.y = this.height * (1 - this.thresholdRoof) / 2;
