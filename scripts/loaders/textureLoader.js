@@ -9,6 +9,7 @@ const Textures = {
     hedge_01: "hedge_01.jpg",
     hedge_02: "hedge_02.jpg",
     nursery_billboard: "nursery_billboard.png",
+    maps_move_icon: "maps_move_icon.png",
     wood_01: "wood_01.jpg",
 }
 

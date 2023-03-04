@@ -1,7 +1,8 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { Controller } from './scripts/controls/Controller.js';
+import { MapsController } from './scripts/controls/mapsController.js';
+import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 
 // Create scene
@@ -16,7 +17,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.x = 0;
-camera.position.y = 1.8;
+camera.position.y = 100;
 camera.position.z = 0;
 
 // Create renderer
@@ -28,14 +29,6 @@ renderer.outputEncoding = THREE.LinearEncoding;
 
 document.body.appendChild(renderer.domElement);
 
-// Add OrbitControls
-const controls = new OrbitControls(camera, renderer.domElement);
-// const fpc = new FirstPersonControls(camera, renderer.domElement);
-// fpc.constrainVertical = true;
-// fpc.heightMax = 1.8;
-// fpc.heightMin = 1.8;
-// fpc.lookSpeed = 0.1;
-
 // Add HDRI skybox
 new RGBELoader()
     .load("textures/hdri/grassland.hdr", (texture) => {
@@ -46,13 +39,46 @@ new RGBELoader()
 
 loadStaticSceneObjects(scene);
 
+// Camera positions for the MapsController
+const defaultHeight = 1.8;
+const cameraPositions = [
+    new THREE.Vector3(0, defaultHeight, 0),
+    new THREE.Vector3(10, defaultHeight, 0),
+    new THREE.Vector3(20, defaultHeight, 0),
+    new THREE.Vector3(30, defaultHeight, 0),
+    new THREE.Vector3(40, defaultHeight, 0),
+    new THREE.Vector3(-10, defaultHeight, 0),
+    new THREE.Vector3(-20, defaultHeight, 0),
+    new THREE.Vector3(-30, defaultHeight, 0),
+    new THREE.Vector3(-40, defaultHeight, 0),
+    new THREE.Vector3(-50, defaultHeight, 0),
+];
+
+/**
+ * Some objects need some time to load when the camera first looks at them.
+ * This is a workaround to make sure objects are loaded before the user can interact with the scene.
+ */
+camera.lookAt(scene.position);
+renderer.render(scene, camera);
+
+let controls = new Controller(scene, camera, renderer);
+setTimeout(() => {
+    controls = new MapsController(scene, camera, renderer, cameraPositions);
+}, 5000);
+
+
 // Render loop
 const clock = new THREE.Clock();
 const animate = function () {
     requestAnimationFrame(animate);
-    controls.update();
-    // fpc.update(clock.getDelta());
-    // camera.position.y = 1.8;
+    controls.update(clock.getDelta());
     renderer.render(scene, camera);
 }
 animate();
+
+window.onkeydown = (e) => {
+    if (e.key == "Escape") {
+        controls.dispose();
+        controls = new OrbitController(scene, camera, renderer);
+    }
+}
