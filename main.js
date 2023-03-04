@@ -5,6 +5,8 @@ import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 
+const loadingScreen = document.getElementById("loading_screen");
+
 // Create scene
 const scene = new THREE.Scene();
 window.scene = scene;
@@ -64,6 +66,7 @@ renderer.render(scene, camera);
 let controls = new Controller(scene, camera, renderer);
 setTimeout(() => {
     controls = new MapsController(scene, camera, renderer, cameraPositions);
+    loadingScreen.style.opacity = 0;
 }, 5000);
 
 
