@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap');
 
+:root {
+    --color-beige: #FEFBE9;
+    --color-mint: #E1EEDD;
+    --color-green: #183A1D;
+    --color-orange: #F0A04B;
+
+    --animation-cubic-bezier: cubic-bezier(.62,.28,.23,.99);
+}
+
 * {
     font-family: 'Inter', sans-serif;
 }
@@ -20,13 +29,81 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fff;
+    background: var(--color-beige);
     z-index: 9999;
     pointer-events: none;
     opacity: 1;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1s var(--animation-cubic-bezier);
 }
 
 #loading_text {
     text-align: center;
+}
+
+.button {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    background-color: var(--color-mint);
+    border: 5px solid var(--color-green);
+    transition: all .25s var(--animation-cubic-bezier);
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: var(--color-beige);
+    border: 5px solid var(--color-orange);
+}
+
+.button.active {
+    background-color: var(--color-beige);
+    border: 5px solid var(--color-orange);
+}
+
+
+#scene_controls {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(100%);
+    transition: all .25s var(--animation-cubic-bezier);
+}
+
+#scene_controls.active {
+    transform: translateY(-.5em);
+}
+
+#scene_controls_thumb {
+    position: absolute;
+    top: -25px;
+    width: 100px;
+    height: 25px;
+    border-radius: 15px 15px 0 0;
+    background-color: var(--color-mint);
+    text-align: center;
+    font-weight: 700;
+}
+
+#scene_controls_thumb:hover {
+    cursor: pointer;
+    background-color: var(--color-beige);
+}
+
+#scene_controls_thumb img {
+    height: 100%;
+}
+
+#switch_controls_options {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transform: translateY(100%);
+    transition: transform .5s var(--animation-cubic-bezier);
 }

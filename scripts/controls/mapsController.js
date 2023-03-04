@@ -63,6 +63,10 @@ export class MapsController extends Controller {
 
     _mouseUp(e) {
         document.body.style.cursor = "default";
+
+        // If the user clicks on something else than the canvas, don't teleport
+        if (e.target.tagName != "CANVAS") return;
+
         if (Date.now() - this.lastMouseDown < 200 && this.moveIcon.visible)
             this._teleportToClosestPosition();
     }
