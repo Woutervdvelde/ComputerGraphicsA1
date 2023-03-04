@@ -56,6 +56,7 @@ export class MapsController extends Controller {
     }
 
     _mouseDown(e) {
+        e.preventDefault();
         document.body.style.cursor = "move";
         this.lastMouseDown = Date.now();
     }
