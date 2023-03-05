@@ -46,20 +46,25 @@ export class GUI {
         settingOptions.classList.add("setting-options");
         settingOptions.id = `options_${setting.name}`;
 
-        const optionsContainer = document.createElement("div");
-        optionsContainer.classList.add("options-container");
-        setting.options.forEach(option => {
-            this._createOptionHTML(option, optionsContainer);
-        });
+        if (setting.options) {
+            const optionsContainer = document.createElement("div");
+            optionsContainer.classList.add("options-container");
+            setting.options.forEach(option => {
+                this._createOptionHTML(option, optionsContainer);
+            });
+            settingOptions.appendChild(optionsContainer);
+        }
 
-        settingOptions.appendChild(optionsContainer);
         element.appendChild(settingName);
         element.appendChild(settingIcon);
         element.appendChild(settingOptions);
         this.controls_container.appendChild(element);
 
         element.onclick = () => {
-            settingOptions.classList.toggle("active");
+            if (setting.options)
+                settingOptions.classList.toggle("active");
+            else
+                setting.action();
         };
     }
 

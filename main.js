@@ -97,12 +97,20 @@ const settings = [
                 selected: false
             }
         ]
+    },
+    {
+        name: "Toggle FPS",
+        icon: "<img src='images/timer.svg'/>",
+        action: () => {
+            stats.dom.style.display = stats.dom.style.display === "none" ? "block" : "none";
+        }
     }
 ]
 new GUI(settings);
 
 const stats = new Stats();
 document.body.appendChild(stats.dom);
+stats.dom.style.display = "none";
 
 
 // Render loop
