@@ -9,7 +9,8 @@ import { Entity } from "./entity.js";
 export class Horse extends Entity {
     horse;
     speed = 0.1;
-    offset = random(0, 10);
+    offset = random(0, 7);
+    target;
 
     /**
      * Creates a horse and adds it to the scene
@@ -24,6 +25,7 @@ export class Horse extends Entity {
         this.boundaries = boundaries;
         this.scene = scene;
         this._createHorse();
+        this.behaviour = wanderBehaviour;
     }
 
     async _createHorse() {
@@ -41,29 +43,51 @@ export class Horse extends Entity {
         scene.add(horse);
     }
 
+    setBehaviour(behaviour) {
+        this.behaviour = behaviour;
+    }
+
     async getMesh() {
         return this.horse;
     }
 
     update(delta) {
-        const target = this.scene.camera.position.clone();
-        target.z += this.offset;
-        target.x += this.offset;
-
-        this.horse.position.lerp(target, delta * this.speed);
-        this.horse.position.y = 0.5;
-
-        this.horse.lookAt(this.scene.camera.position);
-        this.horse.rotation.x = 0;
-        this.horse.rotation.z = 0;
-
-        if (this.horse.position.x < this.boundaries[0].x)
-            this.horse.position.x = this.boundaries[0].x;
-        if (this.horse.position.x > this.boundaries[1].x)
-            this.horse.position.x = this.boundaries[1].x;
-        if (this.horse.position.z > this.boundaries[0].y)
-            this.horse.position.z = this.boundaries[0].y;
-        if (this.horse.position.z < this.boundaries[1].y)
-            this.horse.position.z = this.boundaries[1].y;
+        this.behaviour(this, delta);
     }
+}
+
+export const followBehaviour = (horse, delta) => {
+    const target = horse.scene.camera.position.clone();
+    target.x += horse.offset;
+    target.y = 0;
+    target.z += horse.offset;
+
+    horse.horse.position.lerp(target, delta * horse.speed);
+    horse.horse.position.y = 0;
+
+    horse.horse.lookAt(target);
+
+    if (horse.horse.position.x < horse.boundaries[0].x)
+        horse.horse.position.x = horse.boundaries[0].x;
+    if (horse.horse.position.x > horse.boundaries[1].x)
+        horse.horse.position.x = horse.boundaries[1].x;
+    if (horse.horse.position.z > horse.boundaries[0].y)
+        horse.horse.position.z = horse.boundaries[0].y;
+    if (horse.horse.position.z < horse.boundaries[1].y)
+        horse.horse.position.z = horse.boundaries[1].y;
+}
+
+export const wanderBehaviour = (horse, delta) => {
+    if (horse.target == null || horse.horse.position.distanceTo(horse.target) < 1) {
+        horse.target = new THREE.Vector3(
+            random(horse.boundaries[0].x, horse.boundaries[1].x),
+            0,
+            random(horse.boundaries[0].y, horse.boundaries[1].y)
+        );
+    }
+
+    horse.horse.position.lerp(horse.target, delta * horse.speed);
+    horse.horse.position.y = 0;
+
+    horse.horse.lookAt(horse.target);
 }

@@ -6,6 +6,7 @@ import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 import Stats from 'three/addons/libs/stats.module.js';
+import { followBehaviour, wanderBehaviour } from './scripts/entity/horse.js';
 
 const loadingScreen = document.getElementById("loading_screen");
 
@@ -107,6 +108,28 @@ const settings = [
         action: () => {
             stats.dom.style.display = stats.dom.style.display === "none" ? "block" : "none";
         }
+    },
+    {
+        name: "Horse behaviour",
+        icon: "<img src='images/run.svg'/>",
+        options: [
+            {
+                name: "wander",
+                icon: "<img src='images/random.svg'/>",
+                action: () => {
+                    scene.entities.forEach(entity => entity.setBehaviour(wanderBehaviour));
+                },
+                selected: true
+            },
+            {
+                name: "follow",
+                icon: "<img src='images/near_me.svg'/>",
+                action: () => {
+                    scene.entities.forEach(entity => entity.setBehaviour(followBehaviour));
+                },
+                selected: false
+            }
+        ]
     }
 ]
 new GUI(settings);
