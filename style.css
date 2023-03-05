@@ -26,6 +26,21 @@ body {
     overflow: hidden;
 }
 
+#portrait_blocker {
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-orange-100);
+    z-index: 99998;
+    pointer-events: none;
+    display: none;
+}
+
 #loading_screen {
     position: absolute;
     display: flex;
@@ -149,4 +164,10 @@ body {
 .option-subtitle {
     font-weight: 100;
     font-size: .9em;
+}
+
+@media screen and (orientation: portrait) {
+    #portrait_blocker {
+        display: flex;
+    }
 }

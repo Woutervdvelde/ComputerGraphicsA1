@@ -78,6 +78,16 @@ setTimeout(() => {
 // Add GUI
 const settings = [
     {
+        name: "Fullscreen",
+        icon: "<img src='images/fullscreen.svg'/>",
+        action: () => {
+            if (document.fullscreenElement)
+                document.exitFullscreen();
+            else
+                document.documentElement.requestFullscreen();
+        }
+    },
+    {
         name: "Controls",
         icon: "<img src='images/move.svg'/>",
         options: [
@@ -151,3 +161,10 @@ const animate = function () {
     requestAnimationFrame(animate);
 }
 animate();
+
+// Resize event
+window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
