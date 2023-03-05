@@ -2,7 +2,7 @@ import { Controller } from "./controller.js";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { get_material, Textures } from "../loaders/textureLoader.js";
-import { degreesToRadians } from "../helper.js";
+import { degreesToRadians, radiansToDegrees } from "../helper.js";
 
 /**
  * @classdesc Controller that allows the user to move the camera to different positions on the X-axis, mimics Google Street View
@@ -22,11 +22,17 @@ export class MapsController extends Controller {
      * @param {THREE.Camera} camera 
      * @param {THREE.Renderer} renderer 
      * @param {THREE.Vector3[]} positions - Array of positions the camera is allowed to move to on the X-axis
+     * @param {string[]} mapLinks - Corresponding map links for each position, must be same order as positions
      */
-    constructor(scene, camera, renderer, positions) {
+    constructor(scene, camera, renderer, positions, mapLinks) {
         super(scene, camera, renderer);
         this.positions = positions;
+        this.mapLinks = mapLinks;
         this.lastPosition = positions[0];
+        this.changeViewButton = document.getElementById("maps_controls");
+        this.iframe = document.getElementById("google_maps");
+
+        this.changeViewButton.classList.add("active");
 
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.target.set(0, 1.8, 0.01);
@@ -42,12 +48,15 @@ export class MapsController extends Controller {
         this.mouseDownHandler = this._mouseDown.bind(this);
         this.mouseUpHandler = this._mouseUp.bind(this);
         this.wheelHandler = this._wheel.bind(this);
+        this.changeViewHandler = this._changeView.bind(this);
 
         window.addEventListener('mousemove', this.mouseMoveHandler);
         window.addEventListener('mousedown', this.mouseDownHandler);
         window.addEventListener('mouseup', this.mouseUpHandler);
         window.addEventListener('wheel', this.wheelHandler);
+        this.changeViewButton.addEventListener('click', this.changeViewHandler);
         this._createMoveIcon();
+        this._setGoogleMapsLink(this.mapLinks[0]);
     }
 
     _mouseMove(e) {
@@ -128,7 +137,8 @@ export class MapsController extends Controller {
         // To prevent the camera from moving backwards when the closest position is behind the camera
         if (this.moveIcon.position.x > this.camera.position.x && closest.x < this.camera.position.x) return;
         if (this.moveIcon.position.x < this.camera.position.x && closest.x > this.camera.position.x) return;
-        
+
+        this._setGoogleMapsLink(this.mapLinks[this.positions.indexOf(closest)]);
         const oldRotation = this.camera.rotation.clone();
         const oldPosition = this.camera.position.sub(this.lastPosition);
         const newPosition = new THREE.Vector3(closest.x + oldPosition.x, closest.y + oldPosition.y, closest.z + oldPosition.z);
@@ -138,6 +148,25 @@ export class MapsController extends Controller {
         this.camera.position.set(newPosition.x, newPosition.y, newPosition.z);
 
         this.lastPosition = closest;
+    }
+
+    _setGoogleMapsLink(link) {
+        this.iframe.src = link;
+    }
+
+    _setGoogleMapsRotation() {
+        const vector = new THREE.Vector3();
+        this.camera.getWorldDirection(vector);
+
+        let degrees = radiansToDegrees(Math.atan2(vector.z, vector.x));
+        degrees = degrees < 0 ? degrees + 360 : degrees;
+
+        this.iframe.src = this.iframe.src.replace(/(!3f.+)!4f/gm, `!3f${degrees}!4f`);
+    }
+
+    _changeView() {
+        this._setGoogleMapsRotation();
+        this.iframe.classList.toggle("active");
     }
 
     update() {
@@ -164,6 +193,9 @@ export class MapsController extends Controller {
         window.removeEventListener('mousedown', this.mouseDownHandler);
         window.removeEventListener('mouseup', this.mouseUpHandler);
         window.removeEventListener('wheel', this.wheelHandler);
+        this.changeViewButton.removeEventListener('click', this.changeViewHandler);
+        this.iframe.classList.remove("active");
+        this.changeViewButton.classList.remove("active");
 
         this.moveIcon.geometry.dispose();
         this.moveIcon.material.dispose();
