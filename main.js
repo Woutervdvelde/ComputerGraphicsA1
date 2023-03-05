@@ -5,6 +5,7 @@ import { Controller } from './scripts/controls/Controller.js';
 import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
+import Stats from 'three/addons/libs/stats.module.js';
 
 const loadingScreen = document.getElementById("loading_screen");
 
@@ -20,7 +21,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 camera.position.x = 0;
-camera.position.y = 100;
+camera.position.y = 500;
 camera.position.z = 0;
 
 // Create renderer
@@ -74,14 +75,13 @@ setTimeout(() => {
 const settings = [
     {
         name: "Controls",
-        icon: "🎮",
+        icon: "<img src='images/move.svg'/>",
         options: [
             {
                 name: "street view",
                 subtitle: "recommended",
                 icon: "<img src='images/location_on.svg'/>",
                 action: () => {
-                    console.log("street view");
                     controls.dispose();
                     controls = new MapsController(scene, camera, renderer, cameraPositions);
                 },
@@ -101,6 +101,9 @@ const settings = [
 ]
 new GUI(settings);
 
+const stats = new Stats();
+document.body.appendChild(stats.dom);
+
 
 // Render loop
 const clock = new THREE.Clock();
@@ -108,5 +111,6 @@ const animate = function () {
     requestAnimationFrame(animate);
     controls.update(clock.getDelta());
     renderer.render(scene, camera);
+    stats.update();
 }
 animate();

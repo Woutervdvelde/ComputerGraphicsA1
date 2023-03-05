@@ -124,8 +124,60 @@ const addPath = (scene) => {
     scene.add(path2);
 }
 
+const addHorsePen = (scene) => {
+    const poleHeight = 1;
+    const poleRadius = .1;
+    const poles = [
+        [12, poleHeight / 2, -3],
+        [12, poleHeight / 2, -29],
+        [8, poleHeight / 2, -29],
+        [7, poleHeight / 2, -70],
+        [73, poleHeight / 2, -38],
+        [64, poleHeight / 2, -4]
+    ]
+
+    for (let i = 0; i < poles.length; i++) {
+        const pole = new THREE.Mesh(
+            new THREE.CylinderGeometry(poleRadius, poleRadius, poleHeight, 8),
+            get_material(Textures.wood_01, 4, 4, 4)
+        );
+        pole.position.set(...poles[i]);
+        scene.add(pole);
+
+        const count = (i + 1) - (poles.length - 1);
+        if (count > 1) return;
+        const pole1 = poles[i];
+        const pole2 = poles[count < 1 ? i + 1 : 0];
+
+        const maxLines = 3;
+        for (let j = 0; j < maxLines; j++) {
+            const width = Math.sqrt(Math.pow(pole1[0] - pole2[0], 2) + Math.pow(pole1[2] - pole2[2], 2));
+            const height = poleHeight / 10;
+            const lenght = .05;
+
+            const line = new THREE.Mesh(
+                new THREE.BoxGeometry(width, height, lenght),
+                new THREE.MeshBasicMaterial({ color: 0x000000 })
+            );
+
+            const x = (pole1[0] + pole2[0]) / 2;
+            const y = poleHeight / maxLines * (j + 1) - (height / 2 + .01); //+.01 to avoid y-fighting
+            const z = (pole1[2] + pole2[2]) / 2;
+
+            const rotation = Math.atan2(pole2[2] - pole1[2], pole2[0] - pole1[0]);
+            line.rotation.y = -rotation;
+
+            line.position.set(x, y, z);
+
+            scene.add(line);
+        }
+    }
+}
+
 export const loadDetails = (scene) => {
     addTowerBushes(scene);
     addSmallBushes(scene);
     addPath(scene);
+
+    addHorsePen(scene);
 }

@@ -38,6 +38,10 @@ export class GUI {
         settingName.classList.add("setting-name");
         settingName.innerHTML = setting.name;
 
+        const settingIcon = document.createElement("div");
+        settingIcon.classList.add("setting-icon");
+        settingIcon.innerHTML = setting.icon;
+
         const settingOptions = document.createElement("div");
         settingOptions.classList.add("setting-options");
         settingOptions.id = `options_${setting.name}`;
@@ -50,6 +54,7 @@ export class GUI {
 
         settingOptions.appendChild(optionsContainer);
         element.appendChild(settingName);
+        element.appendChild(settingIcon);
         element.appendChild(settingOptions);
         this.controls_container.appendChild(element);
 
