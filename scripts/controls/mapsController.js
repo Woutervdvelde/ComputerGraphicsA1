@@ -1,4 +1,4 @@
-import { Controller } from "./Controller.js";
+import { Controller } from "./controller.js";
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { get_material, Textures } from "../loaders/textureLoader.js";

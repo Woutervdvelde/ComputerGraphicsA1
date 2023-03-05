@@ -1,17 +1,13 @@
 import * as THREE from 'three';
 import { GUI } from './scripts/gui.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { Controller } from './scripts/controls/Controller.js';
+import { Controller } from './scripts/controls/controller.js';
 import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
 import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
 import Stats from 'three/addons/libs/stats.module.js';
 
 const loadingScreen = document.getElementById("loading_screen");
-
-// Create scene
-const scene = new THREE.Scene();
-window.scene = scene;
 
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -23,6 +19,13 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.x = 0;
 camera.position.y = 500;
 camera.position.z = 0;
+
+// Create scene
+const scene = new THREE.Scene();
+// Creating an array to store all the entities in the scene
+scene.entities = [];
+scene.camera = camera;
+window.scene = scene;
 
 // Create renderer
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -116,9 +119,12 @@ stats.dom.style.display = "none";
 // Render loop
 const clock = new THREE.Clock();
 const animate = function () {
-    requestAnimationFrame(animate);
-    controls.update(clock.getDelta());
+    const delta = clock.getDelta();
+
+    controls.update(delta);
     renderer.render(scene, camera);
     stats.update();
+    scene.entities.forEach(entity => entity.update(delta));
+    requestAnimationFrame(animate);
 }
 animate();

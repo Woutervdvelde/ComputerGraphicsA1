@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Horse } from '../entity/horse.js';
 import { degreesToRadians, random } from '../helper.js';
 import { Textures, get_material } from '../loaders/textureLoader.js';
 
@@ -174,10 +175,16 @@ const addHorsePen = (scene) => {
     }
 }
 
+const addHorses = async (scene) => {
+    for (let i = 0; i < 3; i++)
+        new Horse([new THREE.Vector2(13.5, -4.5), new THREE.Vector2(64, -38)], scene)
+}
+
 export const loadDetails = (scene) => {
     addTowerBushes(scene);
     addSmallBushes(scene);
     addPath(scene);
 
     addHorsePen(scene);
+    addHorses(scene);
 }

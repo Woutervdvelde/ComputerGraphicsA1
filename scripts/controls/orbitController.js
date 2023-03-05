@@ -1,4 +1,4 @@
-import { Controller } from "./Controller.js";
+import { Controller } from "./controller.js";
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 

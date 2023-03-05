@@ -56,7 +56,7 @@ body {
     border-radius: 15px;
     background-color: var(--color-orange-300);
     border: 5px solid var(--color-orange-300);
-    transition: all .25s var(--animation-cubic-bezier);
+    transition: all .15s var(--animation-cubic-bezier);
 }
 
 .button:hover {
