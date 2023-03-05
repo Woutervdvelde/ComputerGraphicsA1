@@ -158,10 +158,14 @@ export class MapsController extends Controller {
         const vector = new THREE.Vector3();
         this.camera.getWorldDirection(vector);
 
-        let degrees = radiansToDegrees(Math.atan2(vector.z, vector.x));
-        degrees = degrees < 0 ? degrees + 360 : degrees;
+        let degreesVertical = Math.abs(radiansToDegrees(Math.atan2(vector.z, vector.y)));
+        degreesVertical -= 90;
+        degreesVertical *= -1;
 
-        this.iframe.src = this.iframe.src.replace(/(!3f.+)!4f/gm, `!3f${degrees}!4f`);
+        let degreesHorizontal = radiansToDegrees(Math.atan2(vector.z, vector.x));
+        degreesHorizontal = degreesHorizontal < 0 ? degreesHorizontal + 360 : degreesHorizontal;
+
+        this.iframe.src = this.iframe.src.replace(/(!3f.+)!5f/gm, `!3f${degreesHorizontal}!4f${degreesVertical}!5f`);
     }
 
     _changeView() {
