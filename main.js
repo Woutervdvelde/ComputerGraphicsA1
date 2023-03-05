@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { GUI } from './scripts/gui.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { Controller } from './scripts/controls/Controller.js';
 import { MapsController } from './scripts/controls/mapsController.js';
@@ -69,6 +70,37 @@ setTimeout(() => {
     loadingScreen.style.opacity = 0;
 }, 5000);
 
+// Add GUI
+const settings = [
+    {
+        name: "Controls",
+        icon: "🎮",
+        options: [
+            {
+                name: "street view",
+                subtitle: "recommended",
+                icon: "<img src='images/location_on.svg'/>",
+                action: () => {
+                    console.log("street view");
+                    controls.dispose();
+                    controls = new MapsController(scene, camera, renderer, cameraPositions);
+                },
+                selected: true
+            },
+            {
+                name: "orbit",
+                icon: "<img src='images/orbit.svg'/>",
+                action: () => {
+                    controls.dispose();
+                    controls = new OrbitController(scene, camera, renderer);
+                },
+                selected: false
+            }
+        ]
+    }
+]
+new GUI(settings);
+
 
 // Render loop
 const clock = new THREE.Clock();
@@ -78,10 +110,3 @@ const animate = function () {
     renderer.render(scene, camera);
 }
 animate();
-
-window.onkeydown = (e) => {
-    if (e.key == "Escape") {
-        controls.dispose();
-        controls = new OrbitController(scene, camera, renderer);
-    }
-}

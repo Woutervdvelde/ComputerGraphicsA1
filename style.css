@@ -1,10 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;700&display=swap');
 
 :root {
-    --color-beige: #FEFBE9;
+    --color-orange-100: #fefbe9;
+    --color-orange-200: #fceccf;
+    --color-orange-300: #f9ddb4;
+    --color-orange-400: #f7ce9a;
+    --color-orange-500: #f5be80;
+    --color-orange-600: #f2af65;
+    --color-orange-700: #f0a04b;
+
     --color-mint: #E1EEDD;
     --color-green: #183A1D;
-    --color-orange: #F0A04B;
 
     --animation-cubic-bezier: cubic-bezier(.62,.28,.23,.99);
 }
@@ -29,7 +35,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--color-beige);
+    background: var(--color-orange-100);
     z-index: 9999;
     pointer-events: none;
     opacity: 1;
@@ -41,23 +47,27 @@ body {
 }
 
 .button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     width: 100px;
     height: 100px;
     border-radius: 15px;
-    background-color: var(--color-mint);
-    border: 5px solid var(--color-green);
+    background-color: var(--color-orange-300);
+    border: 5px solid var(--color-orange-300);
     transition: all .25s var(--animation-cubic-bezier);
 }
 
 .button:hover {
     cursor: pointer;
-    background-color: var(--color-beige);
-    border: 5px solid var(--color-orange);
+    background-color: var(--color-orange-100);
+    border: 5px solid var(--color-orange-700);
 }
 
-.button.active {
-    background-color: var(--color-beige);
-    border: 5px solid var(--color-orange);
+.button.selected {
+    background-color: var(--color-orange-100);
+    border: 5px solid var(--color-orange-700);
 }
 
 
@@ -73,14 +83,14 @@ body {
 }
 
 #scene_controls.active {
-    transform: translateY(-.5em);
+    transform: translateY(0);
 }
 
 #scene_controls_thumb {
     position: absolute;
-    top: -25px;
+    top: -30px;
     width: 100px;
-    height: 25px;
+    height: 30px;
     border-radius: 15px 15px 0 0;
     background-color: var(--color-mint);
     text-align: center;
@@ -89,21 +99,50 @@ body {
 
 #scene_controls_thumb:hover {
     cursor: pointer;
-    background-color: var(--color-beige);
+    background-color: var(--color-orange-100);
 }
 
 #scene_controls_thumb img {
     height: 100%;
 }
 
-#switch_controls_options {
+.controls-container {
+    display: flex;
+    gap: 1em;
+    padding: 1em;
+    background-color: var(--color-orange-100);
+    border-radius: 15px 15px 0 0;
+}
+
+.setting-options {
     position: absolute;
     left: 0;
     width: 100%;
+    pointer-events: none;
     display: flex;
     justify-content: center;
-    align-items: center;
 
     transform: translateY(100%);
     transition: transform .5s var(--animation-cubic-bezier);
+}
+
+.setting-options.active {
+    transform: translateY(-90%);
+}
+
+.options-container {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 1em;
+    pointer-events: all;
+    background-color: var(--color-orange-100);
+    border-radius: 15px;
+}
+
+.option-subtitle {
+    font-weight: 100;
+    font-size: .9em;
 }
