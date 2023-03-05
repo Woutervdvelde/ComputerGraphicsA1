@@ -342,6 +342,41 @@ const addBushField = (scene) => {
     addCustomObject(field);
 }
 
+const plantTree = (scene, tree, position) => {
+    const t = tree.clone();
+    t.position.set(...position)
+    t.rotation.y = degreesToRadians(random(0, 360));
+    scene.add(t);
+}
+
+const addTrees = async (scene) => {
+    const treeModel = await LoadModel('tree.glb');
+    const tree = treeModel.scene;
+    tree.children.forEach(child => child.material.transparent = true);
+    
+    const positions = [
+        //allong the bush field
+        [-22, 0, -10],
+        [-22, 0, -15],
+        [-22, 0, -17],
+        [-22, 0, -23],
+        [-22, 0, -29],
+        //in front of address 6
+        [2, 0, -5],
+        [2, 0, -10],
+        //leading up to 'kanaal'
+        [65, 0, -5],
+        [66, 0, -10],
+        [68, 0, -14],
+        [70, 0, -18],
+        [72, 0, -25],
+        //in front of address 3A
+        [-33, 0, 5],
+        [-51, 0, 5],
+    ];
+    positions.forEach(position => plantTree(scene, tree, position));
+}
+
 /**
  * Loads all static scene objects
  * @param {THREE.Scene} scene 
@@ -352,6 +387,7 @@ const loadStaticSceneObjects = async (scene) => {
     addHedges(scene);
     addEndOfSceneObjects(scene);
     addBushField(scene);
+    addTrees(scene);
 
     loadAllDetails(scene);
 }
