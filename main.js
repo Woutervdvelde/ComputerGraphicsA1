@@ -4,7 +4,7 @@ import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { Controller } from './scripts/controls/controller.js';
 import { MapsController } from './scripts/controls/mapsController.js';
 import { OrbitController } from './scripts/controls/orbitController.js';
-import { loadStaticSceneObjects } from "./scripts/loaders/sceneLoader.js";
+import { loadSceneObjects } from "./scripts/loaders/sceneLoader.js";
 import Stats from 'three/addons/libs/stats.module.js';
 import { followBehaviour, wanderBehaviour } from './scripts/entity/horse.js';
 
@@ -45,7 +45,7 @@ new RGBELoader()
         scene.environment = texture;
     });
 
-loadStaticSceneObjects(scene);
+loadSceneObjects(scene);
 
 // Camera positions for the MapsController
 const defaultHeight = 1.8;

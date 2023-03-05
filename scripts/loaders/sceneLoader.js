@@ -276,6 +276,16 @@ const addHedges = (scene) => {
     hedge15.position.z = -56;
     hedge15.rotation.y = degreesToRadians(90);
 
+    const hedge16 = new Hedge(.5, 2, 13, Textures.hedge_02);
+    hedge16.position.x = -49;
+    hedge16.position.z = 10;
+    hedge16.rotation.y = degreesToRadians(30);
+
+    const hedge17 = new Hedge(.5, 2, 11, Textures.hedge_02);
+    hedge17.position.x = -34;
+    hedge17.position.z = 10;
+    hedge17.rotation.y = degreesToRadians(-20);
+
     addCustomObject(hedge1);
     addCustomObject(hedge2);
     addCustomObject(hedge3);
@@ -291,6 +301,8 @@ const addHedges = (scene) => {
     addCustomObject(hedge13);
     addCustomObject(hedge14);
     addCustomObject(hedge15);
+    addCustomObject(hedge16);
+    addCustomObject(hedge17);
 }
 
 /**
@@ -345,6 +357,7 @@ const addBushField = (scene) => {
 const plantTree = (scene, tree, position) => {
     const t = tree.clone();
     t.position.set(...position)
+    t.position.y += random(-1, 0);
     t.rotation.y = degreesToRadians(random(0, 360));
     scene.add(t);
 }
@@ -371,17 +384,17 @@ const addTrees = async (scene) => {
         [70, 0, -18],
         [72, 0, -25],
         //in front of address 3A
-        [-33, 0, 5],
-        [-51, 0, 5],
+        [-34, -1.5, 5],
+        [-51, -1.5, 5],
     ];
     positions.forEach(position => plantTree(scene, tree, position));
 }
 
 /**
- * Loads all static scene objects
+ * Loads all scene objects
  * @param {THREE.Scene} scene 
  */
-const loadStaticSceneObjects = async (scene) => {
+const loadSceneObjects = async (scene) => {
     addBase(scene);
     addHouses(scene);
     addHedges(scene);
@@ -393,5 +406,5 @@ const loadStaticSceneObjects = async (scene) => {
 }
 
 export {
-    loadStaticSceneObjects
+    loadSceneObjects
 }
