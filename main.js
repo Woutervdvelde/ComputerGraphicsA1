@@ -1,12 +1,12 @@
 import * as THREE from 'three';
-import { GUI } from 'scripts/gui.js';
+import { GUI } from './scripts/gui.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { Controller } from 'scripts/controls/controller.js';
-import { MapsController } from 'scripts/controls/mapsController.js';
-import { OrbitController } from 'scripts/controls/orbitController.js';
-import { loadSceneObjects } from "scripts/loaders/sceneLoader.js";
+import { Controller } from './scripts/controls/controller.js';
+import { MapsController } from './scripts/controls/mapsController.js';
+import { OrbitController } from './scripts/controls/orbitController.js';
+import { loadSceneObjects } from "./scripts/loaders/sceneLoader.js";
 import Stats from 'three/addons/libs/stats.module.js';
-import { followBehaviour, wanderBehaviour } from 'scripts/entity/horse.js';
+import { followBehaviour, wanderBehaviour } from './scripts/entity/horse.js';
 
 const loadingScreen = document.getElementById("loading_screen");
 
